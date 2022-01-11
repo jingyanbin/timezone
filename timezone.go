@@ -7,22 +7,26 @@ import (
 
 type TimeZone int64
 
-func (tz *TimeZone) Name() string {
-	z := *tz / 3600
+func (tz TimeZone) Name() string {
+	z := int(tz.Zone())
 	if z > 0 {
-		return "E" + strconv.Itoa(int(z))
+		return "E" + strconv.Itoa(z)
 	} else if z < 0 {
-		return "W" + strconv.Itoa(int(z))
+		return "W" + strconv.Itoa(z)
 	} else {
 		return "ZERO"
 	}
 }
 
-func (tz *TimeZone) Offset() int64 {
-	return int64(*tz)
+func (tz TimeZone) Zone() int32 {
+	return int32(tz) / 3600
 }
 
-func (tz *TimeZone) String() string {
+func (tz TimeZone) Offset() int64 {
+	return int64(tz)
+}
+
+func (tz TimeZone) String() string {
 	return tz.Name()
 }
 
